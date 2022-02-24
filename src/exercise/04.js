@@ -2,13 +2,15 @@
 // http://localhost:3000/isolated/exercise/04.js
 
 import * as React from 'react'
+import {useLocalStorageState} from '../utils'
 
 const initialSquares = Array(9).fill(null)
 
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
   // const squares = Array(9).fill(null)
-  const [squares, setSquares] = React.useState(
+  const [squares, setSquares] = useLocalStorageState(
+    'squares',
     () => JSON.parse(localStorage.getItem('squares')) || initialSquares,
   )
 
@@ -23,10 +25,6 @@ function Board() {
   // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
-
-  React.useEffect(() => {
-    localStorage.setItem('squares', JSON.stringify(squares))
-  }, [squares])
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `4`.
