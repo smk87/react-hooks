@@ -8,8 +8,11 @@ const initialSquares = Array(9).fill(null)
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
   // const squares = Array(9).fill(null)
-  const [squares, setSquares] = React.useState(initialSquares)
+  const [squares, setSquares] = React.useState(
+    () => JSON.parse(localStorage.getItem('squares')) || initialSquares,
+  )
 
+  // Derived states
   const nextValue = calculateNextValue(squares)
   const winner = calculateWinner(squares)
   const status = calculateStatus(winner, squares, nextValue)
@@ -20,6 +23,10 @@ function Board() {
   // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
+
+  React.useEffect(() => {
+    localStorage.setItem('squares', JSON.stringify(squares))
+  }, [squares])
 
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `4`.
