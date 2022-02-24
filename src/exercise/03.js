@@ -3,11 +3,17 @@
 
 import * as React from 'react'
 
-function Name({name, onNameChange}) {
+function Name() {
+  const [name, setName] = React.useState('') // Co located state
+
   return (
     <div>
       <label htmlFor="name">Name: </label>
-      <input id="name" value={name} onChange={onNameChange} />
+      <input
+        id="name"
+        value={name}
+        onChange={event => setName(event.target.value)}
+      />
     </div>
   )
 }
@@ -26,8 +32,8 @@ function FavoriteAnimal({animal, onAnimalChange}) {
 }
 
 // 🐨 uncomment this
-function Display({name, animal}) {
-  return <div>{`Hey ${name}, your favorite animal is: ${animal}!`}</div>
+function Display({animal}) {
+  return <div>{`Your favorite animal is: ${animal}!`}</div>
 }
 
 // 💣 remove this component in favor of the new one
@@ -37,19 +43,18 @@ function Display({name, animal}) {
 
 function App() {
   // 🐨 add a useState for the animal
-  const [name, setName] = React.useState('')
-  const [animal, setAnimal] = React.useState('')
+  const [animal, setAnimal] = React.useState('') // Lifted state
 
   return (
     <form>
-      <Name name={name} onNameChange={event => setName(event.target.value)} />
+      <Name />
       {/* 🐨 pass the animal and onAnimalChange prop here (similar to the Name component above) */}
       <FavoriteAnimal
         animal={animal}
         onAnimalChange={event => setAnimal(event.target.value)}
       />
       {/* 🐨 pass the animal prop here */}
-      <Display name={name} animal={animal} />
+      <Display animal={animal} />
     </form>
   )
 }
